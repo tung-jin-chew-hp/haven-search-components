@@ -53,7 +53,7 @@ public class IdolParametricValuesService implements ParametricValuesService<Idol
         final Collection<String> fieldNames = new HashSet<>();
         fieldNames.addAll(parametricRequest.getFieldNames());
         if (fieldNames.isEmpty()) {
-            fieldNames.addAll(fieldsService.getParametricFields(new IdolFieldsRequest.Builder().build()));
+            fieldNames.addAll(getDefaultFields(parametricRequest));
         }
 
         final Set<QueryTagInfo> results;
@@ -71,6 +71,7 @@ public class IdolParametricValuesService implements ParametricValuesService<Idol
             aciParameters.add(GetQueryTagValuesParams.MaxValues.name(), parametricRequest.getMaxValues());
             aciParameters.add(GetQueryTagValuesParams.FieldName.name(), StringUtils.join(fieldNames.toArray(), ','));
             aciParameters.add(GetQueryTagValuesParams.Sort.name(), SortParam.DocumentCount.name());
+            aciParameters.add(GetQueryTagValuesParams.DatePeriod.name(), parametricRequest.getDatePeriod());
 
             final GetQueryTagValuesResponseData responseData = contentAciService.executeAction(aciParameters, queryTagValuesResponseProcessor);
             final List<FlatField> fields = responseData.getField();
@@ -95,11 +96,16 @@ public class IdolParametricValuesService implements ParametricValuesService<Idol
     }
 
     @Override
+    public List<String> getDefaultFields(final IdolParametricRequest parametricRequest) throws AciErrorException {
+        return fieldsService.getParametricFields(new IdolFieldsRequest());
+    }
+
+    @Override
     public List<RecursiveField> getDependentParametricValues(final IdolParametricRequest parametricRequest) throws AciErrorException {
         final List<String> fieldNames = new ArrayList<>();
         fieldNames.addAll(parametricRequest.getFieldNames());
         if (fieldNames.isEmpty()) {
-            fieldNames.addAll(fieldsService.getParametricFields(new IdolFieldsRequest.Builder().build()));
+            fieldNames.addAll(getDefaultFields(parametricRequest));
         }
 
         final List<RecursiveField> results;

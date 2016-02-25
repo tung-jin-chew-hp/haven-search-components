@@ -51,7 +51,7 @@ public class HodParametricValuesService implements ParametricValuesService<HodPa
         final Collection<String> fieldNames = new HashSet<>();
         fieldNames.addAll(parametricRequest.getFieldNames());
         if (fieldNames.isEmpty()) {
-            fieldNames.addAll(fieldsService.getParametricFields(new HodFieldsRequest.Builder().setDatabases(parametricRequest.getQueryRestrictions().getDatabases()).build()));
+            fieldNames.addAll(getDefaultFields(parametricRequest));
         }
 
         final Set<QueryTagInfo> results;
@@ -81,6 +81,11 @@ public class HodParametricValuesService implements ParametricValuesService<HodPa
         }
 
         return results;
+    }
+
+    @Override
+    public List<String> getDefaultFields(HodParametricRequest parametricRequest) throws HodErrorException {
+        return fieldsService.getParametricFields(new HodFieldsRequest.Builder().setDatabases(parametricRequest.getQueryRestrictions().getDatabases()).build());
     }
 
     @Override

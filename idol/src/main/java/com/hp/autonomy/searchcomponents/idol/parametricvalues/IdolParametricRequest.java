@@ -29,6 +29,7 @@ public class IdolParametricRequest implements ParametricRequest<String> {
     private Integer maxValues = MAX_VALUES_DEFAULT;
     private QueryRestrictions<String> queryRestrictions;
     private boolean modified = true;
+    private String datePeriod = null;
 
     @JsonPOJOBuilder(withPrefix = "set")
     @Setter
@@ -39,16 +40,18 @@ public class IdolParametricRequest implements ParametricRequest<String> {
         private Integer maxValues = MAX_VALUES_DEFAULT;
         private QueryRestrictions<String> queryRestrictions;
         private boolean modified = true;
+        private String datePeriod = null;
         
         public Builder(final ParametricRequest<String> parametricRequest) {
             fieldNames = parametricRequest.getFieldNames();
             maxValues = parametricRequest.getMaxValues();
             queryRestrictions = parametricRequest.getQueryRestrictions();
             modified = parametricRequest.isModified();
+            datePeriod = parametricRequest.getDatePeriod();
         }
 
         public IdolParametricRequest build() {
-            return new IdolParametricRequest(fieldNames, maxValues, queryRestrictions, modified);
+            return new IdolParametricRequest(fieldNames, maxValues, queryRestrictions, modified, datePeriod);
         }
     }
 }

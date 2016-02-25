@@ -18,4 +18,6 @@ public interface ParametricValuesService<R extends ParametricRequest<S>, S exten
 
     List<RecursiveField> getDependentParametricValues(R parametricRequest) throws E;
 
+    List<String> getDefaultFields(R parametricRequest) throws E;
+
 }

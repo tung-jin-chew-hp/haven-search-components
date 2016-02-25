@@ -30,6 +30,8 @@ public class HodParametricRequest implements ParametricRequest<ResourceIdentifie
     private Integer maxValues = MAX_VALUES_DEFAULT;
     private QueryRestrictions<ResourceIdentifier> queryRestrictions;
     private boolean modified = true;
+    // NOTE: not supported by HOD, and doing so with AUTN_DATE will be fun with ESF which has no default autn_date field
+    private String datePeriod = null;
 
     @JsonPOJOBuilder(withPrefix = "set")
     @Setter
@@ -40,16 +42,18 @@ public class HodParametricRequest implements ParametricRequest<ResourceIdentifie
         private Integer maxValues = MAX_VALUES_DEFAULT;
         private QueryRestrictions<ResourceIdentifier> queryRestrictions;
         private boolean modified = true;
+        private String datePeriod = null;
 
         public Builder(final ParametricRequest<ResourceIdentifier> hodParametricRequest) {
             fieldNames = hodParametricRequest.getFieldNames();
             maxValues = hodParametricRequest.getMaxValues();
             queryRestrictions = hodParametricRequest.getQueryRestrictions();
             modified = hodParametricRequest.isModified();
+            datePeriod = hodParametricRequest.getDatePeriod();
         }
 
         public HodParametricRequest build() {
-            return new HodParametricRequest(fieldNames, maxValues, queryRestrictions, modified);
+            return new HodParametricRequest(fieldNames, maxValues, queryRestrictions, modified, datePeriod);
         }
     }
 }

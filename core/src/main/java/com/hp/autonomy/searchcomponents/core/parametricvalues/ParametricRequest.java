@@ -17,5 +17,7 @@ public interface ParametricRequest<S extends Serializable> extends Serializable 
 
     QueryRestrictions<S> getQueryRestrictions();
 
+    String getDatePeriod();
+
     boolean isModified();
 }
