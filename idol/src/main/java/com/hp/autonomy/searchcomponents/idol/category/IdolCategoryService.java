@@ -58,6 +58,8 @@ public class IdolCategoryService {
         }
 
         try {
+            // Note: this fails when using old category, since category returns a Content-Encoding: deflate but
+            //   doesn't actually compress the JPG binary response; at least on 7.5.13.0.
             categoryAciService.executeAction(params, new CopyResponseProcessor(outputStream));
         } catch (final AciServiceException e) {
             throw new CategoryServerErrorException(sourceJobName, e);
