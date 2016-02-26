@@ -74,6 +74,17 @@ public class HavenSearchIdolConfiguration<C extends IdolSearchCapable> {
     }
 
     @Bean
+    @ConditionalOnMissingBean(name = "categoryAciService")
+    public AciService categoryAciService(@Qualifier("aciService") final AciService aciService, final ConfigService<C> configService) {
+        return new AbstractConfigurableAciService(aciService) {
+            @Override
+            public AciServerDetails getServerDetails() {
+                return configService.getConfig().getCategoryConfig().toAciServerDetails();
+            }
+        };
+    }
+
+    @Bean
     public IdolAnnotationsProcessorFactory annotationsProcessorFactory() {
         return new IdolAnnotationsProcessorFactoryImpl();
     }

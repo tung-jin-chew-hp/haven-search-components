@@ -7,12 +7,13 @@ package com.hp.autonomy.searchcomponents.idol.configuration;
 
 import com.autonomy.aci.client.transport.AciServerDetails;
 import com.hp.autonomy.searchcomponents.core.config.HavenSearchCapable;
+import com.hp.autonomy.searchcomponents.idol.category.configuration.CategoryCapable;
 import com.hp.autonomy.searchcomponents.idol.view.configuration.ViewCapable;
 
 /**
  * Configuration required for any application performing Haven Search
  */
-public interface IdolSearchCapable extends HavenSearchCapable, ViewCapable {
+public interface IdolSearchCapable extends HavenSearchCapable, ViewCapable, CategoryCapable {
     AciServerDetails getContentAciServerDetails();
 
     QueryManipulation getQueryManipulation();
