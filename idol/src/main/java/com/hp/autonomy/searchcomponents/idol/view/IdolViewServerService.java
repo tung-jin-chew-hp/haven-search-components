@@ -75,6 +75,7 @@ public class IdolViewServerService implements ViewServerService<String, AciError
         viewParameters.add(ViewParams.EmbedImages.name(), true);
         viewParameters.add(ViewParams.StripScript.name(), true);
         viewParameters.add(ViewParams.OriginalBaseURL.name(), true);
+        viewParameters.add(ViewParams.OutputType.name(), "html");
 
         try {
             viewAciService.executeAction(viewParameters, new CopyResponseProcessor(outputStream));
