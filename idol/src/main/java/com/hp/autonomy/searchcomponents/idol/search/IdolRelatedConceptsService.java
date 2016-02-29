@@ -25,7 +25,8 @@ import java.util.List;
 
 @Service
 public class IdolRelatedConceptsService implements RelatedConceptsService<QsElement, String, AciErrorException> {
-    private static final int MAX_RESULTS = 50;
+    // TODO: this should really be configurable...
+    private static final int MAX_RESULTS = 200;
 
     private final HavenSearchAciParameterHandler parameterHandler;
     private final AciService contentAciService;
