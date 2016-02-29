@@ -10,19 +10,14 @@ package com.hp.autonomy.searchcomponents.idol.category;
 
 import com.autonomy.aci.client.services.AciService;
 import com.autonomy.aci.client.services.AciServiceException;
-import com.autonomy.aci.client.services.Processor;
 import com.autonomy.aci.client.services.ProcessorException;
 import com.autonomy.aci.client.services.impl.AbstractStAXProcessor;
-import com.autonomy.aci.client.services.impl.DocumentProcessor;
 import com.autonomy.aci.client.util.AciParameters;
 import com.hp.autonomy.frontend.configuration.ConfigService;
-import com.hp.autonomy.idolutils.processors.AciResponseJaxbProcessorFactory;
 import com.hp.autonomy.idolutils.processors.CopyResponseProcessor;
 import com.hp.autonomy.searchcomponents.idol.category.configuration.CategoryCapable;
 import java.io.OutputStream;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -31,7 +26,6 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.Document;
 
 @Service
 public class IdolCategoryService {
