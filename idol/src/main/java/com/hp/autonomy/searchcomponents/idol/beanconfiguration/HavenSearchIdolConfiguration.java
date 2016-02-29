@@ -120,6 +120,8 @@ public class HavenSearchIdolConfiguration<C extends IdolSearchCapable> {
                 .build();
 
         return HttpClientBuilder.create()
+                // workaround for issues with really old builds of category
+                .disableContentCompression()
                 .setMaxConnPerRoute(maxConnectionsPerRoute)
                 .setMaxConnTotal(maxConnectionsTotal)
                 .setDefaultSocketConfig(socketConfig)
