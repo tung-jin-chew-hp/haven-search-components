@@ -24,9 +24,8 @@ public class ViewContentSecurityPolicy {
             "style-src * 'unsafe-inline'",
             "media-src * 'unsafe-inline'",
 
-            // Behaves like the iframe sandbox attribute, disabling potentially dangerous features such as form submission
-            // Allow same origin so CSS etc can be loaded
-            "sandbox allow-same-origin"
+            // Temporarily allow scripts
+            "sandbox allow-scripts"
     ), "; ");
 
     private ViewContentSecurityPolicy() {}
