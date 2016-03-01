@@ -14,7 +14,7 @@ import java.util.Arrays;
  * Utility for adding a content security policy for securing viewed documents.
  */
 public class ViewContentSecurityPolicy {
-    private static final String CONTENT_SECURITY_POLICY = StringUtils.join(Arrays.asList(
+    private static String CONTENT_SECURITY_POLICY = StringUtils.join(Arrays.asList(
             // Unless another directive applies, prevent loading content
             "default-src 'none'",
 
@@ -23,8 +23,9 @@ public class ViewContentSecurityPolicy {
             "img-src * 'unsafe-inline'",
             "style-src * 'unsafe-inline'",
             "media-src * 'unsafe-inline'",
-            // We need allow-scripts so viewserver's inline javascript can run
-            "script-src 'unsafe-inline'",
+            // Since view server returns specific fixed scripts; we hardcode exceptions to run those particular scripts.
+            // Tested against viewserver 11.0.0 build 1262096
+            "script-src 'sha256-OdLsMSxX1u85wjaFsZU9ffssiX6Lpel0V+I6Jmn3kHI=' 'sha256-UlZRaL7g2EUMkPiWo2wmQXJVku/0E1A7Cp/mTgG22ZA='",
 
             // Behaves like the iframe sandbox attribute, disabling potentially dangerous features such as form submission
             // Allow same origin so CSS etc can be loaded
