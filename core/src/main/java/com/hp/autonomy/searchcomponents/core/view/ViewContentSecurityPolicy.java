@@ -37,7 +37,7 @@ public class ViewContentSecurityPolicy {
      */
     public static void addContentSecurityPolicy(final HttpServletResponse response) {
         // We need both headers to support all browsers
-        response.addHeader("Content-Security-Policy", CONTENT_SECURITY_POLICY);
-        response.addHeader("X-Content-Security-Policy", CONTENT_SECURITY_POLICY);
+//        response.addHeader("Content-Security-Policy", CONTENT_SECURITY_POLICY);
+//        response.addHeader("X-Content-Security-Policy", CONTENT_SECURITY_POLICY);
     }
 }
