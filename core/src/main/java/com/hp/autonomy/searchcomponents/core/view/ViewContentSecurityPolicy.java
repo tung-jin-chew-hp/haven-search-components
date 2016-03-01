@@ -23,9 +23,13 @@ public class ViewContentSecurityPolicy {
             "img-src * 'unsafe-inline'",
             "style-src * 'unsafe-inline'",
             "media-src * 'unsafe-inline'",
+            // We need allow-scripts so viewserver's inline javascript can run
+            "script-src 'unsafe-inline'",
 
-            // Temporarily allow scripts
-            "sandbox allow-scripts"
+            // Behaves like the iframe sandbox attribute, disabling potentially dangerous features such as form submission
+            // Allow same origin so CSS etc can be loaded
+            // We need allow-scripts so viewserver's inline javascript can run
+            "sandbox allow-same-origin allow-scripts"
     ), "; ");
 
     private ViewContentSecurityPolicy() {}
@@ -37,7 +41,7 @@ public class ViewContentSecurityPolicy {
      */
     public static void addContentSecurityPolicy(final HttpServletResponse response) {
         // We need both headers to support all browsers
-//        response.addHeader("Content-Security-Policy", CONTENT_SECURITY_POLICY);
-//        response.addHeader("X-Content-Security-Policy", CONTENT_SECURITY_POLICY);
+        response.addHeader("Content-Security-Policy", CONTENT_SECURITY_POLICY);
+        response.addHeader("X-Content-Security-Policy", CONTENT_SECURITY_POLICY);
     }
 }
