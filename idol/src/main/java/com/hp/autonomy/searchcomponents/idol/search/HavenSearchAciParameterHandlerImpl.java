@@ -63,7 +63,7 @@ public class HavenSearchAciParameterHandlerImpl implements HavenSearchAciParamet
         if (!queryRestrictions.getStateDontMatchId().isEmpty()) {
             aciParameters.add(QueryParams.StateDontMatchID.name(), new StateIdsBuilder(queryRestrictions.getStateDontMatchId()));
         }
-        aciParameters.add(QueryParams.Combine.name(), CombineParam.Simple);
+        aciParameters.add(QueryParams.Combine.name(), "Simple+FieldCheck");
         aciParameters.add(QueryParams.MinDate.name(), formatDate(queryRestrictions.getMinDate()));
         aciParameters.add(QueryParams.MaxDate.name(), formatDate(queryRestrictions.getMaxDate()));
         aciParameters.add(QueryParams.FieldText.name(), queryRestrictions.getFieldText());
