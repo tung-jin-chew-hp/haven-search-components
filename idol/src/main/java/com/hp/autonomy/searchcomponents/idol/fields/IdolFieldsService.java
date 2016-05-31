@@ -63,6 +63,8 @@ public class IdolFieldsService implements FieldsService<IdolFieldsRequest, AciEr
             tagNames.add(getFieldNameFromPath(value));
         }
 
+        tagNames.add("autn_language");
+
         return tagNames;
     }
 
