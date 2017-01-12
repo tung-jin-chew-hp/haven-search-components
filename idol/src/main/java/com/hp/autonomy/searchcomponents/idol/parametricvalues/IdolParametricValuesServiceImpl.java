@@ -284,14 +284,15 @@ class IdolParametricValuesServiceImpl implements IdolParametricValuesService {
 
             final List<Double> boundaries = boundariesPerField.get(tagName.getId());
 
-            // Boundaries includes the min and the max values, so has a minimum size of 2
-            for (int i = 0; i < boundaries.size() - 1; i++) {
-                final Double min = boundaries.get(i);
-
-                if (!values.containsKey(min)) {
-                    values.put(min, new RangeInfo.Value(0, min, boundaries.get(i + 1)));
-                }
-            }
+//           // This is no longer necessary; if you upgrade to content 11.2 ranges with no counts will be returned
+//            // Boundaries includes the min and the max values, so has a minimum size of 2
+//            for (int i = 0; i < boundaries.size() - 1; i++) {
+//                final Double min = boundaries.get(i);
+//
+//                if (!values.containsKey(min)) {
+//                    values.put(min, new RangeInfo.Value(0, min, boundaries.get(i + 1)));
+//                }
+//            }
 
             // All buckets have the same size, so just use the value from the first one
             final double bucketSize = boundaries.get(1) - boundaries.get(0);
