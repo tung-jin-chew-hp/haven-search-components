@@ -47,12 +47,16 @@ public class FieldInfo<T> implements RequestObject<FieldInfo<T>, FieldInfo.Field
     @Singular
     private final List<T> values;
 
+    // Array of potential <select> option values, or ['*'] for a edit box, or just [] for a non-editable field
+    private final List<String> editable;
+
     private FieldInfo(final FieldInfoBuilder<T> builder) {
         id = builder.id;
         type = builder.type;
         advanced = builder.advanced;
         names = builder.names;
         values = builder.values;
+        editable = builder.editable;
     }
 
     public String getId() {
@@ -78,6 +82,10 @@ public class FieldInfo<T> implements RequestObject<FieldInfo<T>, FieldInfo.Field
         return Collections.unmodifiableList(values);
     }
 
+    public List<String> getEditable() {
+        return Collections.unmodifiableList(editable);
+    }
+
     @Override
     public FieldInfoBuilder<T> toBuilder() {
         return new FieldInfoBuilder<>(this);
@@ -98,6 +106,7 @@ public class FieldInfo<T> implements RequestObject<FieldInfo<T>, FieldInfo.Field
         private boolean advanced;
         private Set<String> names = new HashSet<>();
         private List<T> values = new ArrayList<>();
+        private List<String> editable = new ArrayList<>();
 
         private FieldInfoBuilder(final FieldInfo<T> fieldInfo) {
             id = fieldInfo.id;
@@ -105,6 +114,7 @@ public class FieldInfo<T> implements RequestObject<FieldInfo<T>, FieldInfo.Field
             advanced = fieldInfo.advanced;
             names = fieldInfo.names;
             values = fieldInfo.values;
+            editable = fieldInfo.editable;
         }
 
         @JsonProperty("type")
@@ -135,6 +145,11 @@ public class FieldInfo<T> implements RequestObject<FieldInfo<T>, FieldInfo.Field
 
         public FieldInfoBuilder<T> values(final Collection<? extends T> values) {
             this.values.addAll(values);
+            return this;
+        }
+
+        public FieldInfoBuilder<T> editable(final Collection<? extends String> editable) {
+            this.editable.addAll(editable);
             return this;
         }
 
