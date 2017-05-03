@@ -20,6 +20,7 @@ import com.hp.autonomy.hod.client.api.textindex.query.parametric.ParametricSort;
 import com.hp.autonomy.hod.client.error.HodErrorException;
 import com.hp.autonomy.hod.sso.HodAuthenticationPrincipal;
 import com.hp.autonomy.searchcomponents.core.caching.CacheNames;
+import com.hp.autonomy.searchcomponents.core.config.FieldsInfo;
 import com.hp.autonomy.searchcomponents.core.fields.TagNameFactory;
 import com.hp.autonomy.searchcomponents.core.parametricvalues.BucketingParams;
 import com.hp.autonomy.searchcomponents.core.parametricvalues.BucketingParamsHelper;
@@ -124,6 +125,7 @@ class HodParametricValuesServiceImpl implements HodParametricValuesService {
                     final String name = fieldValues.getName();
                     final Set<QueryTagCountInfo> values = valuesInRange.stream()
                             .map(valueAndCount -> new QueryTagCountInfo(valueAndCount.getValue(), tagNameFactory.getTagDisplayValue(name, valueAndCount.getValue()), valueAndCount.getCount()))
+                            .filter(field -> ! FieldsInfo.BLACKLISTED_VALUE.equals(field.getDisplayValue()) )
                             .collect(Collectors.toCollection(LinkedHashSet::new));
 
                     final TagName tagName = tagNameFactory.buildTagName(name);
@@ -268,15 +270,15 @@ class HodParametricValuesServiceImpl implements HodParametricValuesService {
 
         final Collection<ResourceName> indexes = parametricRequest.getQueryRestrictions().getDatabases();
         final List<FieldValues> parametricValues = getParametricValuesService.getParametricValues(fieldNames, indexes, parametricParams);
-        return parametricRequest.getValueRestrictions().isEmpty() ? parametricValues : parametricValues.stream()
+        return parametricValues.stream()
                 .map(fieldValues -> {
                     final List<FieldValues.ValueAndCount> values = fieldValues.getValues();
                     return fieldValues.toBuilder()
                             .clearValues()
                             .values(values
                                     .stream()
-                                    .filter(valueAndCount -> parametricRequest.getValueRestrictions().stream()
-                                            .anyMatch(restriction -> valueAndCount.getValue().toLowerCase().matches(WILDCARD_PATTERN.matcher(restriction.toLowerCase()).replaceAll(".*"))))
+                                    .filter(valueAndCount -> !FieldsInfo.BLACKLISTED_VALUE.equals(valueAndCount.getValue()) && (parametricRequest.getValueRestrictions().isEmpty() || parametricRequest.getValueRestrictions().stream()
+                                            .anyMatch(restriction -> valueAndCount.getValue().toLowerCase().matches(WILDCARD_PATTERN.matcher(restriction.toLowerCase()).replaceAll(".*")))))
                                     .limit(parametricRequest.getMaxValues())
                                     .collect(Collectors.toList()))
                             .build();

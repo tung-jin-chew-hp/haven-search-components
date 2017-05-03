@@ -10,6 +10,7 @@ import com.autonomy.aci.client.util.AciParameters;
 import com.hp.autonomy.aci.content.ranges.Range;
 import com.hp.autonomy.aci.content.ranges.Ranges;
 import com.hp.autonomy.searchcomponents.core.caching.CacheNames;
+import com.hp.autonomy.searchcomponents.core.config.FieldsInfo;
 import com.hp.autonomy.searchcomponents.core.fields.TagNameFactory;
 import com.hp.autonomy.searchcomponents.core.parametricvalues.BucketingParams;
 import com.hp.autonomy.searchcomponents.core.parametricvalues.BucketingParamsHelper;
@@ -288,6 +289,7 @@ class IdolParametricValuesServiceImpl implements IdolParametricValuesService {
                     final String displayValue = tagNameFactory.getTagDisplayValue(name, value);
                     return new QueryTagCountInfo(value, displayValue, tagValue.getCount());
                 })
+                .filter(queryTagCountInfo -> !FieldsInfo.BLACKLISTED_VALUE.equals(queryTagCountInfo.getDisplayValue()))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
 
         final TagName tagName = tagNameFactory.buildTagName(name);
@@ -348,6 +350,7 @@ class IdolParametricValuesServiceImpl implements IdolParametricValuesService {
                             .count(recursiveField.getCount())
                             .subFields(addDisplayNamesToRecursiveFields(recursiveField.getField(), fieldNames.subList(1, fieldNames.size())))
                             .build())
+                    .filter(field -> ! FieldsInfo.BLACKLISTED_VALUE.equals(field.getDisplayValue()) )
                     .collect(Collectors.toList());
     }
 }

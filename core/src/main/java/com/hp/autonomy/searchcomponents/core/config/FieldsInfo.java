@@ -36,6 +36,8 @@ import java.util.LinkedHashMap;
 public class FieldsInfo extends SimpleComponent<FieldsInfo> implements Serializable {
     private static final long serialVersionUID = 7627012722603736269L;
 
+    public static String BLACKLISTED_VALUE = "\0";
+
     private final LinkedHashMap<String, FieldInfo<?>> fieldConfig;
     @JsonIgnore
     private final LinkedHashMap<FieldPath, FieldInfo<?>> fieldConfigByName;

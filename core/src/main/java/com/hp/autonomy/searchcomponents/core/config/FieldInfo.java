@@ -49,6 +49,7 @@ public class FieldInfo<T extends Serializable> implements RequestObject<FieldInf
     @SuppressWarnings({"NonSerializableFieldInSerializableClass", "MismatchedQueryAndUpdateOfCollection"})
     @Singular
     private final List<FieldValue<T>> values;
+    private final boolean whitelist;
 
     private FieldInfo(final FieldInfoBuilder<T> builder) {
         id = builder.id;
@@ -57,6 +58,7 @@ public class FieldInfo<T extends Serializable> implements RequestObject<FieldInf
         names = builder.names;
         displayName = builder.displayName;
         values = builder.values;
+        whitelist = builder.whitelist;
     }
 
     public static <T extends Serializable> FieldInfoBuilder<T> builder() {
@@ -103,6 +105,7 @@ public class FieldInfo<T extends Serializable> implements RequestObject<FieldInf
         private Set<FieldPath> names = new HashSet<>();
         private String displayName;
         private List<FieldValue<T>> values = new ArrayList<>();
+        private boolean whitelist;
 
         private FieldInfoBuilder(final FieldInfo<T> fieldInfo) {
             id = fieldInfo.id;
@@ -111,6 +114,7 @@ public class FieldInfo<T extends Serializable> implements RequestObject<FieldInf
             names = fieldInfo.names;
             displayName = fieldInfo.displayName;
             values = fieldInfo.values;
+            whitelist = fieldInfo.whitelist;
         }
 
         @JsonProperty("type")

@@ -9,6 +9,7 @@ import com.hp.autonomy.frontend.configuration.ConfigService;
 import com.hp.autonomy.searchcomponents.core.config.FieldInfo;
 import com.hp.autonomy.searchcomponents.core.config.FieldType;
 import com.hp.autonomy.searchcomponents.core.config.FieldValue;
+import com.hp.autonomy.searchcomponents.core.config.FieldsInfo;
 import com.hp.autonomy.searchcomponents.core.config.HavenSearchCapable;
 import com.hp.autonomy.types.requests.idol.actions.tags.FieldPath;
 import org.apache.commons.lang3.StringUtils;
@@ -60,11 +61,17 @@ class FieldDisplayNameGeneratorImpl implements FieldDisplayNameGenerator {
                 .map(value -> {
                     final Optional<FieldInfo<?>> maybeFieldInfo = getFieldInfoFromConfigByName(path);
                     return maybeFieldInfo
-                            .flatMap(fieldInfo -> fieldInfo.getValues()
-                                    .stream()
-                                    .filter(fieldValue -> compareValues(value, fieldValue))
-                                    .findFirst()
-                                    .map(FieldValue::getDisplayValue))
+                            .flatMap(fieldInfo -> {
+                                final Optional<String> displayValue = fieldInfo.getValues()
+                                        .stream()
+                                        .filter(fieldValue -> compareValues(value, fieldValue))
+                                        .findFirst()
+                                        .map(FieldValue::getDisplayValue);
+
+                                return displayValue.isPresent() ? displayValue
+                                    : fieldInfo.isWhitelist() ? Optional.of(FieldsInfo.BLACKLISTED_VALUE)
+                                    : Optional.empty();
+                            })
                             .orElseGet(() -> defaultGenerateDisplayValue(value));
                 }).orElse(null);
 
